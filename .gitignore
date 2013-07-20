@@ -1,4 +1,4 @@
 *.pyc
 
 # Specific files
-Templates/wordlist.txt
+Memo/wordlist.txt
