@@ -6,8 +6,10 @@ import string
 class Caesar():
   def translate(self, cipher, offset = None):
     if offset == None:
+      results = []
       for i in xrange(1, len(string.lowercase)):
-        print self.translateAlpha(cipher, i)
+        results += [self.translateAlpha(cipher, i)]
+      return results
     else:
       return self.translateAlpha(cipher, offset)
 
