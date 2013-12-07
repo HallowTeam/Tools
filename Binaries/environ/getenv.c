@@ -24,6 +24,7 @@ int     main(int argc, char **argv)
 		return 0;
 	}
 
+	/* stat() instead */
 	if (open(argv[2], O_RDONLY) == -1)
 	{
 		printf("%s doesn't exist or is not readable\n", argv[2]);
@@ -49,6 +50,7 @@ int     main(int argc, char **argv)
 	return 0;
 }
 
+/* Find for GDB */
 /*******************************************************************************
 	env -i SHLVL=0 PWD=$PWD $PWD/PROG
  ******************************************************************************/
