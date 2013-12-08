@@ -76,11 +76,15 @@ class FormatString():
     if isinstance(data, int):
       data_length = bytesToHex(self.addr_bytes)
     else:
-      data_length = addModulus(len(data))
+      data_length = addModulus(len(data)) * 2
     return self.splitData(self.formatData(data, data_length), self.chunk_bytes)
 
   def formatData(self, data, length):
-    data = "%x" % data
+    if isinstance(data, int):
+      data = "%x" % data
+    else:
+      data = ["%02x" % ord(c) for c in data]
+      data = "".join(data[::-1] if self.endian else data)
     return data.rjust(length, "0")
 
   def splitData(self, data, chunk_size):
