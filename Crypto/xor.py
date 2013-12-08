@@ -11,9 +11,9 @@ def split_list(list_, chunksize = 2):
     return [list_[i:i + chunksize] for i in xrange(0, len(list_), chunksize)]
 
 class Xor():
-    def xor(self, plaintext, key):
+    def xor(self, plain, key):
         cipher = ""
-        for i, c in enumerate(plaintext):
+        for i, c in enumerate(plain):
             cipher += chr(ord(c) ^ ord(key[i % len(key)]))
         return cipher
 
@@ -58,4 +58,3 @@ class Xor():
             print "[-] Keys   :", keys
             print colored("[-] Ignored:", "red"), colored(ignored, "yellow")
         return success, keys, chars, ignored
-
