@@ -1,20 +1,21 @@
+#define _BSD_SOURCE
+
 #include <stdio.h>
-#include <fcntl.h>
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include <stdlib.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
 int     main(int argc, char **argv)
 {
-	int   offset;
-	char  *addr;
+	int           offset;
+	char          *addr;
+	struct stat   stats;
 
 	if (argc < 3)
 	{
-		printf("Usage: %s <VAR_NAME> <PROC_NAME>\n", argv[0]);
+		printf("Usage: %s <VAR> <PROC>\n", argv[0]);
 		return 0;
 	}
 
@@ -24,8 +25,7 @@ int     main(int argc, char **argv)
 		return 0;
 	}
 
-	/* stat() instead */
-	if (open(argv[2], O_RDONLY) == -1)
+	if (stat(argv[2], &stats) == -1)
 	{
 		printf("%s doesn't exist or is not readable\n", argv[2]);
 		return 0;
@@ -42,15 +42,10 @@ int     main(int argc, char **argv)
 				 (0x00FF0000 & (long)addr) >> 16,
 				 (0xFF000000 & (long)addr) >> 24, (long)addr);
 	printf("Address argv[2] : \\x%02lx\\x%02lx\\x%02lx\\x%02lx (%#08lx)\n",
-				 (0x000000FF & (long)addr + offset) >> 0,
-				 (0x0000FF00 & (long)addr + offset) >> 8,
-				 (0x00FF0000 & (long)addr + offset) >> 16,
-				 (0xFF000000 & (long)addr + offset) >> 24, (long)addr + offset);
+				 (0x000000FF & (long)(addr + offset)) >> 0,
+				 (0x0000FF00 & (long)(addr + offset)) >> 8,
+				 (0x00FF0000 & (long)(addr + offset)) >> 16,
+				 (0xFF000000 & (long)(addr + offset)) >> 24, (long)(addr + offset));
 
 	return 0;
 }
-
-/* Find for GDB */
-/*******************************************************************************
-	env -i PWD=$PWD SHLVL=0 $PWD/PROG
- ******************************************************************************/
